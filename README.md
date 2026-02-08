@@ -1,2 +1,3 @@
-# interactive-birthday-website-with-guided-sequence-wish-mini-game-bouquet-candle
-Exported from Caffeine project: Interactive birthday website with guided sequence (wish → mini-game → bouquet → candle cake → smiley giftbox → note)
+## 
+
+To run app build and run docker image: `docker build -t app . docker run -it --network host app`

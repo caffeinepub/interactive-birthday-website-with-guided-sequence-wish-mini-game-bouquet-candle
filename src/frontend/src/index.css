@@ -1,0 +1,170 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    :root {
+        --radius: 0.625rem;
+        
+        /* Warm celebratory palette - light mode */
+        --background: 0.98 0.02 45;
+        --foreground: 0.25 0.03 30;
+        --card: 1 0 0;
+        --card-foreground: 0.25 0.03 30;
+        --popover: 1 0 0;
+        --popover-foreground: 0.25 0.03 30;
+        --primary: 0.55 0.18 340;
+        --primary-foreground: 0.98 0 0;
+        --secondary: 0.95 0.05 60;
+        --secondary-foreground: 0.25 0.03 30;
+        --muted: 0.96 0.02 45;
+        --muted-foreground: 0.55 0.02 30;
+        --accent: 0.65 0.22 25;
+        --accent-foreground: 0.98 0 0;
+        --destructive: 0.577 0.245 27.325;
+        --destructive-foreground: 0.985 0 0;
+        --border: 0.90 0.02 45;
+        --input: 0.90 0.02 45;
+        --ring: 0.65 0.18 340;
+        
+        /* Celebration colors */
+        --celebration-primary: 0.55 0.18 340;
+        --celebration-accent: 0.65 0.22 25;
+        --celebration-light: 0.92 0.08 350;
+        --celebration-medium: 0.75 0.15 340;
+        --celebration-dark: 0.50 0.20 330;
+        
+        --chart-1: 0.646 0.222 41.116;
+        --chart-2: 0.6 0.118 184.704;
+        --chart-3: 0.398 0.07 227.392;
+        --chart-4: 0.828 0.189 84.429;
+        --chart-5: 0.769 0.188 70.08;
+        --sidebar: 0.985 0 0;
+        --sidebar-foreground: 0.145 0 0;
+        --sidebar-primary: 0.55 0.18 340;
+        --sidebar-primary-foreground: 0.985 0 0;
+        --sidebar-accent: 0.97 0 0;
+        --sidebar-accent-foreground: 0.25 0.03 30;
+        --sidebar-border: 0.922 0 0;
+        --sidebar-ring: 0.708 0 0;
+    }
+
+    .dark {
+        --background: 0.20 0.03 330;
+        --foreground: 0.95 0.02 45;
+        --card: 0.25 0.03 330;
+        --card-foreground: 0.95 0.02 45;
+        --popover: 0.25 0.03 330;
+        --popover-foreground: 0.95 0.02 45;
+        --primary: 0.75 0.20 340;
+        --primary-foreground: 0.20 0.03 330;
+        --secondary: 0.30 0.05 330;
+        --secondary-foreground: 0.95 0.02 45;
+        --muted: 0.30 0.03 330;
+        --muted-foreground: 0.65 0.02 45;
+        --accent: 0.70 0.22 25;
+        --accent-foreground: 0.95 0.02 45;
+        --destructive: 0.704 0.191 22.216;
+        --destructive-foreground: 0.20 0.03 330;
+        --border: 1 0 0 / 15%;
+        --input: 1 0 0 / 20%;
+        --ring: 0.70 0.20 340;
+        
+        /* Celebration colors - dark mode */
+        --celebration-primary: 0.75 0.20 340;
+        --celebration-accent: 0.70 0.22 25;
+        --celebration-light: 0.35 0.08 340;
+        --celebration-medium: 0.50 0.15 340;
+        --celebration-dark: 0.25 0.10 330;
+        
+        --chart-1: 0.488 0.243 264.376;
+        --chart-2: 0.696 0.17 162.48;
+        --chart-3: 0.769 0.188 70.08;
+        --chart-4: 0.627 0.265 303.9;
+        --chart-5: 0.645 0.246 16.439;
+        --sidebar: 0.25 0.03 330;
+        --sidebar-foreground: 0.95 0.02 45;
+        --sidebar-primary: 0.75 0.20 340;
+        --sidebar-primary-foreground: 0.95 0.02 45;
+        --sidebar-accent: 0.30 0.05 330;
+        --sidebar-accent-foreground: 0.95 0.02 45;
+        --sidebar-border: 1 0 0 / 15%;
+        --sidebar-ring: 0.60 0.15 340;
+    }
+
+    * {
+        @apply border-border;
+    }
+    
+    body {
+        @apply bg-background text-foreground;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        font-family: 'Poppins', 'Inter', sans-serif;
+        font-weight: 700;
+    }
+    
+    /* Handwritten note styling */
+    .handwritten-note {
+        font-family: 'Brush Script MT', 'Lucida Handwriting', 'Apple Chancery', cursive;
+    }
+    
+    .handwritten-note p {
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+}
+
+@layer utilities {
+    .celebration-gradient {
+        background: linear-gradient(135deg, 
+            oklch(var(--celebration-light)), 
+            oklch(var(--celebration-medium)), 
+            oklch(var(--celebration-dark))
+        );
+    }
+    
+    /* Subtle grain texture for paper effect */
+    .paper-texture {
+        background-image: 
+            repeating-linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.03) 0px,
+                transparent 1px,
+                transparent 2px,
+                rgba(0, 0, 0, 0.03) 3px
+            );
+    }
+    
+    /* Quote float-up animation */
+    @keyframes quote-float-up {
+        0% {
+            opacity: 0;
+            transform: translate(-50%, -50%) translateY(0) scale(0.8);
+        }
+        10% {
+            opacity: 1;
+            transform: translate(-50%, -50%) translateY(-10px) scale(1);
+        }
+        90% {
+            opacity: 1;
+            transform: translate(-50%, -50%) translateY(-40px) scale(1);
+        }
+        100% {
+            opacity: 0;
+            transform: translate(-50%, -50%) translateY(-50px) scale(0.95);
+        }
+    }
+    
+    .quote-float-up {
+        animation: quote-float-up 2.5s ease-out forwards;
+    }
+    
+    /* Reduced motion fallback */
+    @media (prefers-reduced-motion: reduce) {
+        .quote-float-up {
+            animation: none;
+        }
+    }
+}

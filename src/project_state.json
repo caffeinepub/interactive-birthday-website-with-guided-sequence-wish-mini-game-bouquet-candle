@@ -1,0 +1,322 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 13,
+  "summary": "Birthday-themed interactive website with a guided sequence (wish → popup mini-game → bouquet → interactive cake → giftbox → final note), enhanced with background birthday music, a more unique/interactive design, age personalization (ask user’s age then render matching number of candles and balloons), a realistic bouquet visual, and an ending note styled as a handwritten emotional message on a paper note that comes out of the gift box.",
+  "architectural_notes": [
+    "Add an age input step (or prompt) and store age in client state; use it to parameterize candle count and balloon count in later steps.",
+    "Add audio playback as an optional layer with user controls (and consider autoplay restrictions requiring user interaction).",
+    "Final note presentation should be a paper-note 'reveal from box' animation with handwritten-style typography/texture.",
+    "Audio: do not render a dedicated music box/player component; if controls remain, keep them minimal/unobtrusive (or none) while still handling autoplay restrictions via user interaction.",
+    "Add a balloon-pop handler that triggers a lightweight quote popup/overlay (randomized from a curated quote list) alongside the popped balloon animation."
+  ],
+  "known_issues": [
+    "Deployment/go-live failed due to domain validation constraints (must be 5–50 chars; only letters, numbers, hyphens; underscores/spaces/emojis invalid)."
+  ],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-create-a-single-page-guided-step-by-step-birthday-experience-with-this-fixed-sequence-1-birthday-wish-screen-2-popup-mini-game-3-bouquet-reveal-4-cake-with-candles-5-giftbox-with-many-cute-smilies-6-popup-birthday-note-provide-clear-controls-to-proceed-to-the-next-step-and-prevent-skipping-ahead-until-the-current-step-is-completed-except-allow-restarting-the-whole-experience",
+      "title": "Create a single-page, guided step-by-step birthday experience with this fixed sequence: (1) Birthday Wish screen → (2) Popup Mini-Game → (3) Bouquet reveal → (4) Cake with candles → (5) Giftbox with many cute smilies → (6) Popup Birthday Note. Provide clear controls to proceed to the next step, and prevent skipping ahead until the current step is completed (except allow restarting the whole experience).",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-the-birthday-wish-opening-screen-with-english-wish-text-festive-visuals-and-a-single-primary-cta-to-continue-e-g-start-the-surprise",
+      "title": "Implement the Birthday Wish opening screen with English wish text, festive visuals, and a single primary CTA to continue (e.g., “Start the Surprise”).",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-the-popup-mini-game-as-a-modal-popup-experience-that-must-be-completed-to-continue-keep-gameplay-simple-and-touch-friendly-tap-click-interactions-and-show-a-clear-completion-state-e-g-you-win-with-a-continue-button",
+      "title": "Implement the Popup Mini-Game as a modal/popup experience that must be completed to continue. Keep gameplay simple and touch-friendly (tap/click interactions), and show a clear completion state (e.g., “You win!”) with a Continue button.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-bouquet-reveal-step-with-a-bouquet-visual-and-a-short-reveal-interaction-animation-e-g-tap-to-reveal-the-bouquet-then-show-bouquet",
+      "title": "Create a Bouquet reveal step with a bouquet visual and a short reveal interaction/animation (e.g., “Tap to reveal the bouquet” then show bouquet).",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-the-cake-step-with-multiple-visible-candles-on-the-cake-each-candle-can-be-turned-off-by-tapping-clicking-it-require-the-user-to-turn-off-all-candles-to-complete-the-step",
+      "title": "Implement the Cake step with multiple visible candles on the cake. Each candle can be turned off by tapping/clicking it. Require the user to turn off all candles to complete the step.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-the-giftbox-step-with-an-open-interaction-tap-click-to-open-when-opened-release-display-too-many-cute-smilies-as-a-playful-burst-shower-many-instances-on-screen",
+      "title": "Implement the Giftbox step with an open interaction (tap/click to open). When opened, release/display “too many cute smilies” as a playful burst/shower (many instances on screen).",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-the-final-popup-birthday-note-step-as-a-modal-popup-containing-an-english-birthday-note-with-bright-heartfelt-quotes-wishes-provide-a-close-button-and-an-option-to-restart-the-experience",
+      "title": "Implement the final Popup Birthday Note step as a modal/popup containing an English birthday note with bright, heartfelt quotes/wishes. Provide a close button and an option to restart the experience.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-apply-a-cohesive-creative-visual-theme-across-all-steps-suitable-for-a-birthday-surprise-festive-warm-celebratory-use-a-consistent-color-palette-typography-spacing-and-component-styling-throughout-avoiding-default-unstyled-ui",
+      "title": "Apply a cohesive, creative visual theme across all steps suitable for a birthday surprise (festive, warm, celebratory). Use a consistent color palette, typography, spacing, and component styling throughout, avoiding default/unstyled UI.",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-and-use-generated-static-images-as-frontend-assets-for-the-key-visuals-bouquet-cake-giftbox-and-a-subtle-celebratory-background-store-them-under-frontend-public-assets-generated-and-reference-them-directly-from-the-frontend-not-via-backend",
+      "title": "Add and use generated static images as frontend assets for the key visuals (bouquet, cake, giftbox, and a subtle celebratory background). Store them under frontend/public/assets/generated and reference them directly from the frontend (not via backend).",
+      "reqIds": [
+        "REQ-9"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-background-birthday-music-that-plays-during-the-experience-with-user-controls-to-mute-unmute-and-adjust-volume",
+      "title": "Add background birthday music that plays during the experience, with user controls to mute/unmute and adjust volume.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ask-the-user-for-their-age-at-the-beginning-of-the-experience-before-progressing-through-the-surprises-validate-the-input-and-store-it-in-the-app-state-for-personalization",
+      "title": "Ask the user for their age at the beginning of the experience (before progressing through the surprises), validate the input, and store it in the app state for personalization.",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-personalize-the-cake-step-so-the-number-of-tappable-candles-matches-the-user-s-entered-age-and-ensure-the-step-remains-completable-and-usable-for-larger-ages",
+      "title": "Personalize the cake step so the number of tappable candles matches the user’s entered age, and ensure the step remains completable and usable for larger ages.",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-personalize-balloon-visuals-to-match-the-user-s-entered-age-by-rendering-an-age-based-number-of-balloons-in-an-appropriate-step-e-g-in-the-mini-game-or-as-a-celebratory-overlay-while-keeping-gameplay-and-performance-reasonable",
+      "title": "Personalize balloon visuals to match the user’s entered age by rendering an age-based number of balloons in an appropriate step (e.g., in the mini-game or as a celebratory overlay), while keeping gameplay and performance reasonable.",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-make-the-final-message-feel-handwritten-and-emotional-by-presenting-it-as-a-paper-note-that-visually-comes-out-of-the-gift-box-at-the-end-of-the-experience-and-update-the-note-copy-to-be-heartfelt-and-emotional-in-english",
+      "title": "Make the final message feel handwritten and emotional by presenting it as a paper note that visually comes out of the gift box at the end of the experience, and update the note copy to be heartfelt and emotional in English.",
+      "reqIds": [
+        "REQ-14"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-bouquet-visual-to-be-more-realistic-while-keeping-the-existing-bouquet-reveal-step-behavior",
+      "title": "Update the bouquet visual to be more realistic while keeping the existing bouquet reveal step behavior.",
+      "reqIds": [
+        "REQ-15"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-improve-overall-interactivity-and-make-the-design-feel-more-unique-across-the-experience-without-changing-the-fixed-step-sequence-wish-mini-game-bouquet-cake-giftbox-note",
+      "title": "Improve overall interactivity and make the design feel more unique across the experience without changing the fixed step sequence (wish → mini-game → bouquet → cake → giftbox → note).",
+      "reqIds": [
+        "REQ-16"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-remove-the-on-page-music-box-player-ui-the-fixed-music-controls-container-so-there-is-no-visible-music-widget-while-keeping-the-background-audio-functionality-intact-apply-this-change-only-to-the-selected-element-at-xpath-html-1-body-1-div-1-div-1-div-4-div-1-the-music-controls-container-in-birthdaylayout",
+      "title": "Remove the on-page music box/player UI (the fixed music controls container) so there is no visible music widget, while keeping the background audio functionality intact. Apply this change ONLY to the selected element at XPath /html[1]/body[1]/div[1]/div[1]/div[4]/div[1] (the music controls container in BirthdayLayout).",
+      "reqIds": [
+        "REQ-17"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-lightweight-app-wide-interactive-sparkle-trail-effect-that-follows-the-user-s-pointer-touch-during-the-birthday-experience-with-a-setting-to-disable-it-when-the-user-prefers-reduced-motion",
+      "title": "Add a lightweight, app-wide interactive “sparkle trail” effect that follows the user’s pointer/touch during the birthday experience, with a setting to disable it when the user prefers reduced motion.",
+      "reqIds": [
+        "REQ-18"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-new-collectible-easter-egg-mechanic-across-the-existing-steps-hide-a-small-tappable-surprise-icon-in-each-of-steps-2-5-collecting-all-of-them-unlocks-a-special-end-of-experience-message-shown-in-the-final-note-modal",
+      "title": "Add a new collectible “Easter egg” mechanic across the existing steps: hide a small, tappable surprise icon in each of steps 2–5; collecting all of them unlocks a special end-of-experience message shown in the final note modal.",
+      "reqIds": [
+        "REQ-19"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-an-achievements-layer-that-awards-badges-for-completing-key-interactions-e-g-balloons-popped-candles-blown-out-gift-opened-and-display-an-achievement-summary-in-the-final-step-without-adding-new-steps",
+      "title": "Add an “Achievements” layer that awards badges for completing key interactions (e.g., balloons popped, candles blown out, gift opened) and display an achievement summary in the final step (without adding new steps).",
+      "reqIds": [
+        "REQ-20"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-optional-sound-effects-for-key-interactions-balloon-pop-candle-extinguish-gift-open-collectible-found-with-a-single-global-sfx-mute-toggle-that-does-not-reintroduce-any-visible-fixed-music-widget-player-ui",
+      "title": "Add optional sound effects for key interactions (balloon pop, candle extinguish, gift open, collectible found) with a single global SFX mute toggle that does not reintroduce any visible fixed music widget/player UI.",
+      "reqIds": [
+        "REQ-21"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-memory-capsule-feature-at-the-end-of-the-experience-allow-the-user-to-write-a-short-message-english-ui-that-is-shown-on-the-final-handwritten-note-and-can-be-downloaded-as-a-text-file-store-it-locally-so-it-persists-on-refresh-until-the-user-restarts",
+      "title": "Add a “Memory Capsule” feature at the end of the experience: allow the user to write a short message (English UI) that is shown on the final handwritten note and can be downloaded as a text file; store it locally so it persists on refresh until the user restarts.",
+      "reqIds": [
+        "REQ-22"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-when-the-user-pops-explodes-a-balloon-in-the-balloon-mini-game-modal-immediately-display-a-short-beautiful-english-quote-as-a-lightweight-on-screen-overlay-associated-with-that-pop-near-the-popped-balloon-position-or-as-a-small-centered-toast-then-automatically-fade-it-out-after-a-short-duration-without-blocking-gameplay",
+      "title": "When the user pops/explodes a balloon in the balloon mini-game modal, immediately display a short, beautiful English quote as a lightweight on-screen overlay associated with that pop (near the popped balloon position or as a small centered toast), then automatically fade it out after a short duration without blocking gameplay.",
+      "reqIds": [
+        "REQ-23"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-improve-the-visual-design-of-the-front-page-step-1-birthday-wish-screen-with-more-beautiful-festive-decorations-while-keeping-the-existing-age-input-start-the-surprise-cta-behavior-intact",
+      "title": "Improve the visual design of the front page (Step 1 / Birthday Wish screen) with more beautiful, festive decorations while keeping the existing age input + “Start the Surprise” CTA behavior intact.",
+      "reqIds": [
+        "REQ-24"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-the-newly-generated-front-page-decorative-image-assets-to-the-app-as-static-files-under-frontend-public-assets-generated-and-render-them-on-the-step-1-birthday-wish-screen",
+      "title": "Add the newly generated front-page decorative image assets to the app as static files under frontend/public/assets/generated and render them on the Step 1 (Birthday Wish) screen.",
+      "reqIds": [
+        "REQ-25"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-go-live-deployment-failure-caused-by-invalid-domain-formatting-by-ensuring-the-deployment-domain-slug-used-for-this-app-is-always-compliant-with-the-platform-constraints-5-50-characters-only-lowercase-uppercase-letters-numbers-and-hyphens-no-spaces-underscores-or-emojis",
+      "title": "Fix the go-live/deployment failure caused by invalid domain formatting by ensuring the deployment domain/slug used for this app is always compliant with the platform constraints: 5–50 characters, only lowercase/uppercase letters, numbers, and hyphens (no spaces, underscores, or emojis).",
+      "reqIds": [
+        "REQ-26"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Create multi-step birthday website flow/sequence (wish → game → bouquet → cake → giftbox → note)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Birthday wish opening screen/section",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Popup mini-game experience after the wish",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Bouquet reveal/animation section",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Cake with candles that turn off when tapped",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Giftbox interaction that reveals many cute smilies",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Popup birthday note with bright quotes and heartfelt wishes",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Ask user for age early in the flow and use it to personalize visuals",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Generate/render candles and balloons according to the entered age number",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-11",
+      "summary": "Make overall design more unique and increase interactivity across steps",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-12",
+      "summary": "Final note should appear as a handwritten emotional message on a paper note that comes out of the gift box",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-13",
+      "summary": "Use a more realistic bouquet visual/asset",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-14",
+      "summary": "Remove the on-page music box/player UI; keep background sound/audio only (no visible music widget)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-15",
+      "summary": "Add additional unique interactive features/surprises beyond the current planned interactions to make the experience feel more distinctive",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-16",
+      "summary": "On balloon pop/explosion, show a popup/overlay with a beautiful quote alongside the balloon",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Interactive birthday website with guided sequence (wish → mini-game → bouquet → candle cake → smiley giftbox → note)",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

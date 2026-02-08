@@ -1,0 +1,24 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-fix-the-go-live-deployment-failure-caused-by-invalid-domain-formatting-by-ensuring-the-deployment-domain-slug-used-for-this-app-is-always-compliant-with-the-platform-constraints-5-50-characters-only-lowercase-uppercase-letters-numbers-and-hyphens-no-spaces-underscores-or-emojis",
+      "featureTitle": "Fix the go-live/deployment failure caused by invalid domain formatting by ensuring the deployment domain/slug used for this app is always compliant with the platform constraints: 5–50 characters, only lowercase/uppercase letters, numbers, and hyphens (no spaces, underscores, or emojis).",
+      "files": [
+        "frontend/index.html",
+        "frontend/src/utils/deploymentSlug.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-26"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

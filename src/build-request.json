@@ -1,0 +1,48 @@
+{
+  "kind": "build_request",
+  "title": "Resolve deployment failure by enforcing valid domain naming rules",
+  "priority": "high",
+  "requirements": [
+    {
+      "id": "REQ-26",
+      "text": "Fix the go-live/deployment failure caused by invalid domain formatting by ensuring the deployment domain/slug used for this app is always compliant with the platform constraints: 5–50 characters, only lowercase/uppercase letters, numbers, and hyphens (no spaces, underscores, or emojis).",
+      "target": "unknown",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Deploy"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Deploy/go-live succeeds without the domain validation error.",
+        "The chosen domain/slug is 5–50 characters long.",
+        "The chosen domain/slug contains only letters (A–Z, a–z), numbers (0–9), and hyphens (-).",
+        "Domain/slug strings with spaces, underscores, or emojis are rejected/avoided so deployment cannot be attempted with invalid input."
+      ]
+    }
+  ],
+  "constraints": [
+    "Respect the existing single-actor backend architecture (all Motoko logic in backend/main.mo).",
+    "Do not edit any frontend files under the immutable paths listed in SYSTEM_CONTEXT (compose existing UI components instead)."
+  ],
+  "nonGoals": [
+    "Adding new birthday-experience steps or changing the fixed step sequence.",
+    "Introducing new backend storage or external services solely for deployment naming."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  },
+  "userProfileUpdate": {
+    "goalsToAdd": [],
+    "goalsToRemove": [],
+    "preferencesToAdd": [],
+    "preferencesToRemove": [],
+    "miscToAdd": [],
+    "miscToRemove": [],
+    "fieldsToSet": {},
+    "fieldsToDelete": []
+  }
+}

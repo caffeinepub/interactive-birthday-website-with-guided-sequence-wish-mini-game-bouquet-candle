@@ -1,0 +1,49 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-08T14:09:09.485Z",
+  "summary": "REQ-26 asks to ensure the deployment domain/slug is always compliant (5–50 chars, only letters/numbers/hyphens) so go-live/deploy does not fail due to invalid formatting. The diff adds a frontend utility to validate/sanitize slugs and sets a static HTML <title>, but there is no evidence the actual deployment domain/slug source is being enforced/blocked at the point where deployment is initiated. The changes also introduce several frontend-related additions/updates that were not requested by REQ-26 and may violate the stated constraint to avoid editing immutable frontend paths (the immutable list is not provided here, so this is noted conservatively).",
+  "missing_requirements": [
+    {
+      "id": "REQ-26",
+      "requirement": "Ensure the deployment domain/slug used for this app is always compliant with platform constraints (5–50 chars; only A–Z/a–z/0–9/hyphen) so deployment/go-live succeeds without domain validation errors and invalid inputs (spaces/underscores/emojis) are rejected/avoided so deployment cannot be attempted with invalid input.",
+      "reason": "While a frontend helper for slug validation/sanitization was added, the diff provides no evidence that the app’s actual deployment domain/slug (the value used by the platform during go-live) is being set or enforced using this helper, nor that deployment is prevented when an invalid slug would be used.",
+      "evidence": [
+        "frontend/src/utils/deploymentSlug.ts",
+        "frontend/index.html",
+        "frontend-file-summaries.txt"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Added frontend deployment slug validation/sanitization utilities (including automatic lowercasing, replacement of spaces/underscores with hyphens, and fallback to a default slug).",
+      "reason": "REQ-26 requires ensuring the deployment domain/slug is compliant, but does not explicitly request adding a new frontend utility module or implementing auto-sanitization/fallback behavior in the client code (and the diff does not show it being wired into the deployment mechanism).",
+      "evidence": [
+        "frontend/src/utils/deploymentSlug.ts"
+      ]
+    },
+    {
+      "description": "Changed/added a static document title in the HTML to \"birthday-celebration\" and included Google Fonts links.",
+      "reason": "REQ-26 is about enforcing valid deployment domain/slug formatting for go-live; it does not request HTML title/font changes.",
+      "evidence": [
+        "frontend/index.html"
+      ]
+    },
+    {
+      "description": "Multiple birthday-experience UI/feature enhancements described in the modified frontend summaries (e.g., mini-game quote overlays, collectibles, achievements, download-as-txt, styling/theme changes).",
+      "reason": "Non-goals explicitly say not to add new birthday-experience steps or change the fixed sequence, and REQ-26 is unrelated to adding/enhancing birthday flow features. The diff summary indicates substantial unrelated UI/feature work.",
+      "evidence": [
+        "frontend-file-summaries.txt",
+        "project_state.json"
+      ]
+    }
+  ],
+  "confidence": 0.62,
+  "changed_files": [
+    "frontend-file-summaries.txt",
+    "frontend/index.html",
+    "frontend/src/utils/deploymentSlug.ts",
+    "project_state.json"
+  ]
+}
