@@ -5,6 +5,13 @@
  * - No spaces, underscores, emojis, or special characters
  */
 
+export interface SlugValidationResult {
+  isValid: boolean;
+  slug: string;
+  originalInput?: string;
+  wasModified: boolean;
+}
+
 /**
  * Validates if a string is a valid deployment slug
  */
@@ -52,14 +59,37 @@ export function sanitizeSlug(input: string): string {
 
 /**
  * Gets a safe deployment slug, with fallback to default
+ * Returns a guaranteed-valid slug and diagnostic information
  */
-export function getSafeDeploymentSlug(input?: string): string {
+export function getSafeDeploymentSlug(input?: string): SlugValidationResult {
   const defaultSlug = 'birthday-celebration';
   
-  if (!input) {
-    return defaultSlug;
+  if (!input || input.trim() === '') {
+    return {
+      isValid: true,
+      slug: defaultSlug,
+      wasModified: false
+    };
   }
 
+  const originalInput = input;
   const sanitized = sanitizeSlug(input);
-  return isValidSlug(sanitized) ? sanitized : defaultSlug;
+  const isValid = isValidSlug(sanitized);
+  
+  if (isValid) {
+    return {
+      isValid: true,
+      slug: sanitized,
+      originalInput,
+      wasModified: sanitized !== originalInput
+    };
+  }
+
+  // If sanitization still didn't produce a valid slug, use default
+  return {
+    isValid: false,
+    slug: defaultSlug,
+    originalInput,
+    wasModified: true
+  };
 }

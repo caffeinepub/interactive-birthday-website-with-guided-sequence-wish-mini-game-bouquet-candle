@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 13,
+  "projectStateVersion": 19,
   "summary": "Birthday-themed interactive website with a guided sequence (wish → popup mini-game → bouquet → interactive cake → giftbox → final note), enhanced with background birthday music, a more unique/interactive design, age personalization (ask user’s age then render matching number of candles and balloons), a realistic bouquet visual, and an ending note styled as a handwritten emotional message on a paper note that comes out of the gift box.",
   "architectural_notes": [
     "Add an age input step (or prompt) and store age in client state; use it to parameterize candle count and balloon count in later steps.",
@@ -10,9 +10,10 @@
     "Add a balloon-pop handler that triggers a lightweight quote popup/overlay (randomized from a curated quote list) alongside the popped balloon animation."
   ],
   "known_issues": [
-    "Deployment/go-live failed due to domain validation constraints (must be 5–50 chars; only letters, numbers, hyphens; underscores/spaces/emojis invalid)."
+    "Deployment/go-live failed due to domain validation constraints (must be 5–50 chars; only letters, numbers, hyphens; underscores/spaces/emojis invalid).",
+    "Final note step/modal is not opening (user reports note isn’t opening in live version)."
   ],
-  "isFixRequest": false,
+  "isFixRequest": true,
   "existing_features": [
     {
       "id": "feature-create-a-single-page-guided-step-by-step-birthday-experience-with-this-fixed-sequence-1-birthday-wish-screen-2-popup-mini-game-3-bouquet-reveal-4-cake-with-candles-5-giftbox-with-many-cute-smilies-6-popup-birthday-note-provide-clear-controls-to-proceed-to-the-next-step-and-prevent-skipping-ahead-until-the-current-step-is-completed-except-allow-restarting-the-whole-experience",
@@ -221,6 +222,70 @@
         "REQ-26"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-fine-tune-the-visual-design-of-step-1-birthday-wish-screen-to-feel-more-polished-and-premium-while-keeping-the-existing-behavior-intact-age-input-validation-start-the-surprise-cta-and-automatic-progression-after-submission",
+      "title": "Fine-tune the visual design of Step 1 (Birthday Wish screen) to feel more polished and premium while keeping the existing behavior intact (age input validation, \"Start the Surprise\" CTA, and automatic progression after submission).",
+      "reqIds": [
+        "REQ-27"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-improve-step-1-layout-responsiveness-and-readability-across-common-viewport-sizes-mobile-through-desktop-so-that-headings-description-text-and-the-age-card-remain-well-spaced-and-never-overlap-with-decorative-elements",
+      "title": "Improve Step 1 layout responsiveness and readability across common viewport sizes (mobile through desktop) so that headings, description text, and the age-card remain well-spaced and never overlap with decorative elements.",
+      "reqIds": [
+        "REQ-28"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-refine-step-1-micro-interactions-and-accessibility-affordances-without-changing-the-core-flow-ensure-the-age-input-and-primary-cta-have-clear-focus-active-states-and-ensure-decorative-images-are-treated-as-non-essential-for-screen-readers",
+      "title": "Refine Step 1 micro-interactions and accessibility affordances without changing the core flow: ensure the age input and primary CTA have clear focus/active states, and ensure decorative images are treated as non-essential for screen readers.",
+      "reqIds": [
+        "REQ-29"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-fix-the-step-6-birthday-note-modal-so-it-reliably-opens-and-stays-open-when-the-user-reaches-the-final-step-instead-of-immediately-closing-due-to-incorrect-dialog-open-state-handling",
+      "title": "Fix the Step 6 (Birthday Note) modal so it reliably opens and stays open when the user reaches the final step, instead of immediately closing due to incorrect Dialog open-state handling.",
+      "reqIds": [
+        "REQ-30"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-birthday-note-step-provides-a-clear-way-to-re-open-the-note-after-it-has-been-closed-without-restarting-the-entire-experience-with-user-facing-text-in-english",
+      "title": "Ensure the Birthday Note step provides a clear way to re-open the note after it has been closed (without restarting the entire experience), with user-facing text in English.",
+      "reqIds": [
+        "REQ-31"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-publish-go-live-the-current-build-of-the-birthday-experience",
+      "title": "Publish/go-live the current build of the birthday experience.",
+      "reqIds": [
+        "REQ-32"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-ensure-the-deployment-domain-slug-used-for-go-live-is-always-compliant-with-platform-constraints-5-50-characters-only-letters-numbers-and-hyphens-no-spaces-underscores-emojis-using-the-existing-slug-validation-sanitization-utilities-where-applicable",
+      "title": "Ensure the deployment domain/slug used for go-live is always compliant with platform constraints (5–50 characters; only letters, numbers, and hyphens; no spaces, underscores, emojis), using the existing slug validation/sanitization utilities where applicable.",
+      "reqIds": [
+        "REQ-33"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-after-publishing-perform-a-quick-live-smoke-test-of-the-full-step-flow-1-6-to-confirm-the-final-birthday-note-modal-opens-and-stays-open-on-step-6-and-can-be-re-opened-after-closing-without-restarting",
+      "title": "After publishing, perform a quick live smoke test of the full step flow (1→6) to confirm the final Birthday Note modal opens and stays open on Step 6, and can be re-opened after closing without restarting.",
+      "reqIds": [
+        "REQ-34"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -312,6 +377,15 @@
       "id": "AR-16",
       "summary": "On balloon pop/explosion, show a popup/overlay with a beautiful quote alongside the balloon",
       "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-17",
+      "summary": "Fine-tune/improve the front-page (Step 1) design with more beautiful festive decorations while keeping existing behavior intact",
+      "reqIds": [
+        "REQ-24",
+        "REQ-25"
+      ],
       "status": "pending"
     }
   ],

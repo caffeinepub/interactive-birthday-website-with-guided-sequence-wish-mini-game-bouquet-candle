@@ -1,48 +1,71 @@
 {
   "kind": "build_request",
-  "title": "Resolve deployment failure by enforcing valid domain naming rules",
-  "priority": "high",
+  "title": "Publish (go-live) the birthday experience with deployment-safe domain slug",
+  "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-26",
-      "text": "Fix the go-live/deployment failure caused by invalid domain formatting by ensuring the deployment domain/slug used for this app is always compliant with the platform constraints: 5–50 characters, only lowercase/uppercase letters, numbers, and hyphens (no spaces, underscores, or emojis).",
+      "id": "REQ-32",
+      "text": "Publish/go-live the current build of the birthday experience.",
       "target": "unknown",
       "source": {
         "messageIds": [
-          "msg-1"
+          "msg-4"
         ],
         "quotes": [
-          "Deploy"
+          "Publish it"
         ]
       },
       "acceptanceCriteria": [
-        "Deploy/go-live succeeds without the domain validation error.",
-        "The chosen domain/slug is 5–50 characters long.",
-        "The chosen domain/slug contains only letters (A–Z, a–z), numbers (0–9), and hyphens (-).",
-        "Domain/slug strings with spaces, underscores, or emojis are rejected/avoided so deployment cannot be attempted with invalid input."
+        "A production deployment is created successfully (no deployment/go-live errors).",
+        "The published URL loads the app and renders Step 1 without a blank screen or console-fatal runtime errors."
+      ]
+    },
+    {
+      "id": "REQ-33",
+      "text": "Ensure the deployment domain/slug used for go-live is always compliant with platform constraints (5–50 characters; only letters, numbers, and hyphens; no spaces, underscores, emojis), using the existing slug validation/sanitization utilities where applicable.",
+      "target": "unknown",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "Publish it"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The deployment process does not fail due to an invalid domain/slug format.",
+        "If a user-provided or configured slug is invalid, it is sanitized or replaced with a safe fallback that passes validation."
+      ]
+    },
+    {
+      "id": "REQ-34",
+      "text": "After publishing, perform a quick live smoke test of the full step flow (1→6) to confirm the final Birthday Note modal opens and stays open on Step 6, and can be re-opened after closing without restarting.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "Publish it"
+        ]
+      },
+      "acceptanceCriteria": [
+        "On the live deployment, completing Steps 1–5 and reaching Step 6 automatically opens the Birthday Note modal and it remains open until the user closes it.",
+        "After closing the note on Step 6, the UI provides a working control to re-open the note without restarting the experience.",
+        "Restarting the experience still works from Step 6."
       ]
     }
   ],
   "constraints": [
-    "Respect the existing single-actor backend architecture (all Motoko logic in backend/main.mo).",
-    "Do not edit any frontend files under the immutable paths listed in SYSTEM_CONTEXT (compose existing UI components instead)."
+    "Frontend immutable paths must not be edited: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui.",
+    "Respect the existing fixed step sequence (wish → mini-game → bouquet → cake → giftbox → note)."
   ],
   "nonGoals": [
-    "Adding new birthday-experience steps or changing the fixed step sequence.",
-    "Introducing new backend storage or external services solely for deployment naming."
+    "Adding new birthday steps or changing the experience flow.",
+    "Adding new third-party services or backend databases for deployment."
   ],
   "imageRequirements": {
     "required": [],
     "edits": []
-  },
-  "userProfileUpdate": {
-    "goalsToAdd": [],
-    "goalsToRemove": [],
-    "preferencesToAdd": [],
-    "preferencesToRemove": [],
-    "miscToAdd": [],
-    "miscToRemove": [],
-    "fieldsToSet": {},
-    "fieldsToDelete": []
   }
 }

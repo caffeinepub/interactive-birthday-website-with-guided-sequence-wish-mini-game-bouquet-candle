@@ -29,12 +29,20 @@ export function BirthdayNoteModal({ isOpen, onClose, onRestart }: BirthdayNoteMo
   const earnedAchievements = getAchievements();
 
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout | undefined;
+    
     if (isOpen) {
       // Delay showing the note for the animation
-      setTimeout(() => setShowNote(true), 800);
+      timeoutId = setTimeout(() => setShowNote(true), 800);
     } else {
       setShowNote(false);
     }
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
   }, [isOpen]);
 
   const handleDownloadMessage = () => {
@@ -51,9 +59,21 @@ export function BirthdayNoteModal({ isOpen, onClose, onRestart }: BirthdayNoteMo
     URL.revokeObjectURL(url);
   };
 
+  const handleOpenChange = (open: boolean) => {
+    // Only call onClose when the dialog is being closed (open === false)
+    if (!open) {
+      onClose();
+    }
+  };
+
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-transparent border-none shadow-none p-0">
+    <Dialog open={isOpen} onOpenChange={handleOpenChange} modal>
+      <DialogContent 
+        className="max-w-4xl max-h-[90vh] overflow-y-auto bg-transparent border-none shadow-none p-0"
+        onEscapeKeyDown={(e) => e.preventDefault()}
+        onPointerDownOutside={(e) => e.preventDefault()}
+        onInteractOutside={(e) => e.preventDefault()}
+      >
         <div className="relative">
           {/* Gift box with note emerging animation */}
           <div className={`transition-all duration-1000 ${showNote ? 'opacity-0 scale-75' : 'opacity-100 scale-100'}`}>
@@ -79,6 +99,7 @@ export function BirthdayNoteModal({ isOpen, onClose, onRestart }: BirthdayNoteMo
               <button
                 onClick={onClose}
                 className="absolute top-4 right-4 p-2 rounded-full bg-white/80 hover:bg-white shadow-lg transition-all hover:scale-110"
+                aria-label="Close birthday note"
               >
                 <X className="w-5 h-5 text-gray-600" />
               </button>

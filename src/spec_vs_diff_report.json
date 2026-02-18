@@ -1,49 +1,70 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-08T14:09:09.485Z",
-  "summary": "REQ-26 asks to ensure the deployment domain/slug is always compliant (5–50 chars, only letters/numbers/hyphens) so go-live/deploy does not fail due to invalid formatting. The diff adds a frontend utility to validate/sanitize slugs and sets a static HTML <title>, but there is no evidence the actual deployment domain/slug source is being enforced/blocked at the point where deployment is initiated. The changes also introduce several frontend-related additions/updates that were not requested by REQ-26 and may violate the stated constraint to avoid editing immutable frontend paths (the immutable list is not provided here, so this is noted conservatively).",
+  "generatedAt": "2026-02-08T14:39:38.936Z",
+  "summary": "Diff adds slug validation/sanitization utilities and UI changes (error boundary; Step 6 note modal auto-open + reopen control). However, the diff does not provide deploy/go-live artifacts or evidence of a completed live smoke test, and it’s unclear whether the safe slug is actually wired into the deployment process.",
   "missing_requirements": [
     {
-      "id": "REQ-26",
-      "requirement": "Ensure the deployment domain/slug used for this app is always compliant with platform constraints (5–50 chars; only A–Z/a–z/0–9/hyphen) so deployment/go-live succeeds without domain validation errors and invalid inputs (spaces/underscores/emojis) are rejected/avoided so deployment cannot be attempted with invalid input.",
-      "reason": "While a frontend helper for slug validation/sanitization was added, the diff provides no evidence that the app’s actual deployment domain/slug (the value used by the platform during go-live) is being set or enforced using this helper, nor that deployment is prevented when an invalid slug would be used.",
+      "id": "REQ-32",
+      "requirement": "Publish/go-live the current build of the birthday experience.",
+      "reason": "No deployment configuration/CI changes or release artifacts are shown; the diff only includes frontend code changes. The acceptance criteria about a successful production deployment and the published URL loading cannot be verified from these file changes.",
       "evidence": [
+        "File diff summary shows only frontend source changes; no deployment files/commands/logs are included."
+      ]
+    },
+    {
+      "id": "REQ-33",
+      "requirement": "Ensure the deployment domain/slug used for go-live is always compliant with platform constraints, using existing slug validation/sanitization utilities where applicable.",
+      "reason": "Utilities for slug validation and reading from env are added/modified, but the diff summary does not show where this safe slug is actually used in the deployment workflow (e.g., build scripts, deployment config). Without wiring, deployment could still fail due to an invalid configured slug elsewhere.",
+      "evidence": [
+        "frontend/src/utils/deploymentSlugFromEnv.ts",
         "frontend/src/utils/deploymentSlug.ts",
-        "frontend/index.html",
-        "frontend-file-summaries.txt"
+        "frontend-file-summaries.txt (mentions main.tsx sets compliant document.title, but main.tsx diff content is not shown and no deploy pipeline usage is evidenced)"
+      ]
+    },
+    {
+      "id": "REQ-34",
+      "requirement": "After publishing, perform a quick live smoke test of the full step flow (1→6) on the live deployment to confirm the Birthday Note modal behavior.",
+      "reason": "The diff includes code changes that likely support the Step 6 modal behavior, but there is no evidence of an actual live smoke test being performed (no notes, logs, or test confirmation artifacts).",
+      "evidence": [
+        "frontend/src/components/birthday/steps/StepBirthdayNote.tsx",
+        "frontend/src/components/birthday/modals/BirthdayNoteModal.tsx"
       ]
     }
   ],
   "hallucinated_features": [
     {
-      "description": "Added frontend deployment slug validation/sanitization utilities (including automatic lowercasing, replacement of spaces/underscores with hyphens, and fallback to a default slug).",
-      "reason": "REQ-26 requires ensuring the deployment domain/slug is compliant, but does not explicitly request adding a new frontend utility module or implementing auto-sanitization/fallback behavior in the client code (and the diff does not show it being wired into the deployment mechanism).",
+      "description": "Added a RuntimeErrorBoundary UI with refresh/reset controls and technical details display.",
+      "reason": "Not requested explicitly in REQ-32/33/34; while it may help avoid a blank screen, it is an additional feature beyond the stated requirements.",
       "evidence": [
-        "frontend/src/utils/deploymentSlug.ts"
+        "frontend/src/components/RuntimeErrorBoundary.tsx",
+        "frontend/src/App.tsx (wraps app in RuntimeErrorBoundary)"
       ]
     },
     {
-      "description": "Changed/added a static document title in the HTML to \"birthday-celebration\" and included Google Fonts links.",
-      "reason": "REQ-26 is about enforcing valid deployment domain/slug formatting for go-live; it does not request HTML title/font changes.",
+      "description": "Added sparkle trail toggle UI control in the app header.",
+      "reason": "Not part of REQ-32/33/34, which focus on go-live, slug compliance, and Step 6 modal behavior on live deployment.",
       "evidence": [
-        "frontend/index.html"
+        "frontend/src/App.tsx (Sparkles toggle button; sparkleTrailEnabled state)"
       ]
     },
     {
-      "description": "Multiple birthday-experience UI/feature enhancements described in the modified frontend summaries (e.g., mini-game quote overlays, collectibles, achievements, download-as-txt, styling/theme changes).",
-      "reason": "Non-goals explicitly say not to add new birthday-experience steps or change the fixed sequence, and REQ-26 is unrelated to adding/enhancing birthday flow features. The diff summary indicates substantial unrelated UI/feature work.",
+      "description": "Expanded Birthday Note modal functionality (e.g., disabling Escape/outside close, download-as-txt, achievements/collectibles sections).",
+      "reason": "REQ-34 only specifies auto-open, staying open until closed, and a working reopen control; these additional modal behaviors are not requested.",
       "evidence": [
-        "frontend-file-summaries.txt",
-        "project_state.json"
+        "frontend/src/components/birthday/modals/BirthdayNoteModal.tsx"
       ]
     }
   ],
-  "confidence": 0.62,
+  "confidence": 0.66,
   "changed_files": [
     "frontend-file-summaries.txt",
-    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/RuntimeErrorBoundary.tsx",
+    "frontend/src/components/birthday/modals/BirthdayNoteModal.tsx",
+    "frontend/src/components/birthday/steps/StepBirthdayNote.tsx",
     "frontend/src/utils/deploymentSlug.ts",
+    "frontend/src/utils/deploymentSlugFromEnv.ts",
     "project_state.json"
   ]
 }

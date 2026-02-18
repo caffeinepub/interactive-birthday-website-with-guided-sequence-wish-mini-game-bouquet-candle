@@ -10,6 +10,7 @@ import { StepGiftboxSmilies } from './components/birthday/steps/StepGiftboxSmili
 import { StepBirthdayNote } from './components/birthday/steps/StepBirthdayNote';
 import { SparkleTrailOverlay } from './components/birthday/SparkleTrailOverlay';
 import { ToastLayer } from './components/birthday/notifications/ToastLayer';
+import { RuntimeErrorBoundary } from './components/RuntimeErrorBoundary';
 import { Button } from './components/ui/button';
 import { RotateCcw, Volume2, VolumeX, Sparkles } from 'lucide-react';
 
@@ -61,54 +62,56 @@ function App() {
   };
 
   return (
-    <BirthdayLayout>
-      <SparkleTrailOverlay />
-      <ToastLayer />
-      
-      <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50">
-        <ProgressIndicator currentStep={currentStep} totalSteps={6} />
-      </div>
-      
-      <div className="fixed top-4 right-4 z-50 flex gap-2">
-        <Button
-          onClick={() => setSfxMuted(!sfxMuted)}
-          variant="outline"
-          size="icon"
-          className="bg-white/90 hover:bg-white shadow-lg transition-all"
-          title={sfxMuted ? "Unmute Sound Effects" : "Mute Sound Effects"}
-        >
-          {sfxMuted ? (
-            <VolumeX className="h-4 w-4" />
-          ) : (
-            <Volume2 className="h-4 w-4" />
-          )}
-        </Button>
+    <RuntimeErrorBoundary>
+      <BirthdayLayout>
+        <SparkleTrailOverlay />
+        <ToastLayer />
         
-        <Button
-          onClick={() => setSparkleTrailEnabled(!sparkleTrailEnabled)}
-          variant="outline"
-          size="icon"
-          className="bg-white/90 hover:bg-white shadow-lg transition-all"
-          title={sparkleTrailEnabled ? "Disable Sparkle Trail" : "Enable Sparkle Trail"}
-        >
-          <Sparkles className={`h-4 w-4 ${sparkleTrailEnabled ? 'text-yellow-500' : 'text-gray-400'}`} />
-        </Button>
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50">
+          <ProgressIndicator currentStep={currentStep} totalSteps={6} />
+        </div>
         
-        <Button
-          onClick={restart}
-          variant="outline"
-          size="icon"
-          className="bg-white/90 hover:bg-white shadow-lg hover:rotate-180 transition-all duration-500"
-          title="Restart Experience"
-        >
-          <RotateCcw className="h-4 w-4" />
-        </Button>
-      </div>
+        <div className="fixed top-4 right-4 z-50 flex gap-2">
+          <Button
+            onClick={() => setSfxMuted(!sfxMuted)}
+            variant="outline"
+            size="icon"
+            className="bg-white/90 hover:bg-white shadow-lg transition-all"
+            title={sfxMuted ? "Unmute Sound Effects" : "Mute Sound Effects"}
+          >
+            {sfxMuted ? (
+              <VolumeX className="h-4 w-4" />
+            ) : (
+              <Volume2 className="h-4 w-4" />
+            )}
+          </Button>
+          
+          <Button
+            onClick={() => setSparkleTrailEnabled(!sparkleTrailEnabled)}
+            variant="outline"
+            size="icon"
+            className="bg-white/90 hover:bg-white shadow-lg transition-all"
+            title={sparkleTrailEnabled ? "Disable Sparkle Trail" : "Enable Sparkle Trail"}
+          >
+            <Sparkles className={`h-4 w-4 ${sparkleTrailEnabled ? 'text-yellow-500' : 'text-gray-400'}`} />
+          </Button>
+          
+          <Button
+            onClick={restart}
+            variant="outline"
+            size="icon"
+            className="bg-white/90 hover:bg-white shadow-lg hover:rotate-180 transition-all duration-500"
+            title="Restart Experience"
+          >
+            <RotateCcw className="h-4 w-4" />
+          </Button>
+        </div>
 
-      <div className="flex-1 flex items-center justify-center w-full">
-        {renderStep()}
-      </div>
-    </BirthdayLayout>
+        <div className="flex-1 flex items-center justify-center w-full">
+          {renderStep()}
+        </div>
+      </BirthdayLayout>
+    </RuntimeErrorBoundary>
   );
 }
 

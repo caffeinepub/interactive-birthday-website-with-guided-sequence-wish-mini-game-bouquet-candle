@@ -2,11 +2,11 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-fix-the-go-live-deployment-failure-caused-by-invalid-domain-formatting-by-ensuring-the-deployment-domain-slug-used-for-this-app-is-always-compliant-with-the-platform-constraints-5-50-characters-only-lowercase-uppercase-letters-numbers-and-hyphens-no-spaces-underscores-or-emojis",
-      "featureTitle": "Fix the go-live/deployment failure caused by invalid domain formatting by ensuring the deployment domain/slug used for this app is always compliant with the platform constraints: 5–50 characters, only lowercase/uppercase letters, numbers, and hyphens (no spaces, underscores, or emojis).",
+      "featureId": "feature-publish-go-live-the-current-build-of-the-birthday-experience",
+      "featureTitle": "Publish/go-live the current build of the birthday experience.",
       "files": [
-        "frontend/index.html",
-        "frontend/src/utils/deploymentSlug.ts"
+        "frontend/src/App.tsx",
+        "frontend/src/components/RuntimeErrorBoundary.tsx"
       ],
       "components": [
         "core-infrastructure@1.0.2",
@@ -16,7 +16,45 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-26"
+        "REQ-32"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-ensure-the-deployment-domain-slug-used-for-go-live-is-always-compliant-with-platform-constraints-5-50-characters-only-letters-numbers-and-hyphens-no-spaces-underscores-emojis-using-the-existing-slug-validation-sanitization-utilities-where-applicable",
+      "featureTitle": "Ensure the deployment domain/slug used for go-live is always compliant with platform constraints (5–50 characters; only letters, numbers, and hyphens; no spaces, underscores, emojis), using the existing slug validation/sanitization utilities where applicable.",
+      "files": [
+        "frontend/src/utils/deploymentSlug.ts",
+        "frontend/src/utils/deploymentSlugFromEnv.ts"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-33"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-after-publishing-perform-a-quick-live-smoke-test-of-the-full-step-flow-1-6-to-confirm-the-final-birthday-note-modal-opens-and-stays-open-on-step-6-and-can-be-re-opened-after-closing-without-restarting",
+      "featureTitle": "After publishing, perform a quick live smoke test of the full step flow (1→6) to confirm the final Birthday Note modal opens and stays open on Step 6, and can be re-opened after closing without restarting.",
+      "files": [
+        "frontend/src/components/birthday/modals/BirthdayNoteModal.tsx",
+        "frontend/src/components/birthday/steps/StepBirthdayNote.tsx"
+      ],
+      "components": [
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-34"
       ],
       "confidence": "high"
     }

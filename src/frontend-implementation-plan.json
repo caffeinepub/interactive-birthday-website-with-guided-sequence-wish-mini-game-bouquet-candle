@@ -1,32 +1,66 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Enforce valid deployment domain/slug formatting in frontend metadata",
+  "title": "Deployment-safe publish readiness for Birthday Experience",
   "requirements": [
     {
-      "id": "REQ-26",
-      "summary": "Ensure any deployment domain/slug value derived from the app’s frontend metadata is always 5–50 chars and contains only letters, numbers, and hyphens to prevent go-live validation failures.",
+      "id": "REQ-32",
+      "summary": "Harden the app against production runtime failures so the published URL reliably renders Step 1 without a blank screen.",
       "acceptanceCriteria": [
-        "Deploy/go-live succeeds without the domain validation error.",
-        "The chosen domain/slug is 5–50 characters long.",
-        "The chosen domain/slug contains only letters (A–Z, a–z), numbers (0–9), and hyphens (-).",
-        "Domain/slug strings with spaces, underscores, or emojis are rejected/avoided so deployment cannot be attempted with invalid input."
+        "A production deployment is created successfully (no deployment/go-live errors).",
+        "The published URL loads the app and renders Step 1 without a blank screen or console-fatal runtime errors."
       ],
       "file_operations": [
         {
-          "path": "frontend/index.html",
-          "operation": "modify",
-          "description": "Update the document <title> to a compliant, stable slug-like string (5–50 chars; only letters/numbers/hyphens) so any platform logic deriving the deployment domain/slug from the title cannot generate invalid values."
+          "path": "frontend/src/components/RuntimeErrorBoundary.tsx",
+          "operation": "create",
+          "description": "Add a React error boundary that renders a minimal recovery UI (including a refresh/restart suggestion) to prevent a blank screen if an uncaught render error occurs in production."
         },
+        {
+          "path": "frontend/src/App.tsx",
+          "operation": "modify",
+          "description": "Wrap the existing BirthdayLayout/step rendering in the new RuntimeErrorBoundary so unexpected runtime errors do not result in a blank screen and Step 1 can still load when no error is present."
+        }
+      ]
+    },
+    {
+      "id": "REQ-33",
+      "summary": "Ensure any configured/user-provided deployment slug is validated and sanitized to meet platform constraints, using existing slug utilities.",
+      "acceptanceCriteria": [
+        "The deployment process does not fail due to an invalid domain/slug format.",
+        "If a user-provided or configured slug is invalid, it is sanitized or replaced with a safe fallback that passes validation."
+      ],
+      "file_operations": [
         {
           "path": "frontend/src/utils/deploymentSlug.ts",
-          "operation": "create",
-          "description": "Add a small utility to validate and sanitize deployment slugs (enforce length 5–50 and allowed characters A–Z/a–z/0–9/-; strip/replace spaces/underscores/emojis and normalize consecutive hyphens) for consistent reuse across the app."
+          "operation": "modify",
+          "description": "Extend the existing slug helpers to better support deployment-time configuration (e.g., export a single helper that takes a potentially-invalid slug and returns a guaranteed-safe slug plus optional diagnostics), while preserving the current validation/sanitization rules."
         },
         {
-          "path": "frontend/src/main.tsx",
+          "path": "frontend/src/utils/deploymentSlugFromEnv.ts",
+          "operation": "create",
+          "description": "Add a small utility that reads a slug from frontend configuration (e.g., build-time env) and always returns a safe slug via getSafeDeploymentSlug, so the build/deploy workflow can consume a compliant value without failing."
+        }
+      ]
+    },
+    {
+      "id": "REQ-34",
+      "summary": "Ensure Step 6 reliably auto-opens the Birthday Note modal, keeps it open until explicitly closed, and supports reopening and restart on live deployment.",
+      "acceptanceCriteria": [
+        "On the live deployment, completing Steps 1–5 and reaching Step 6 automatically opens the Birthday Note modal and it remains open until the user closes it.",
+        "After closing the note on Step 6, the UI provides a working control to re-open the note without restarting the experience.",
+        "Restarting the experience still works from Step 6."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/birthday/modals/BirthdayNoteModal.tsx",
           "operation": "modify",
-          "description": "Set/override document.title at runtime using a safe constant slug (validated/sanitized via the new utility) to ensure the final title used in the deployed build is always compliant even if other build-time metadata changes."
+          "description": "Adjust the modal behavior so it does not unintentionally close via backdrop/Escape interactions (only explicit close UI), while continuing to use the shadcn-ui Dialog/DialogContent primitives (verify the component's usage instructions before implementing)."
+        },
+        {
+          "path": "frontend/src/components/birthday/steps/StepBirthdayNote.tsx",
+          "operation": "modify",
+          "description": "Add small Step 6 robustness tweaks (e.g., stable control visibility/state handling for the reopen button) to guarantee the note can be reopened after closing without restarting."
         }
       ]
     }

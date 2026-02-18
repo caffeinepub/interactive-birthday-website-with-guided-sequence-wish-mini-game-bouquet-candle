@@ -1,27 +1,52 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-08T14:09:09.488Z",
+  "generatedAt": "2026-02-08T14:39:38.940Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 1,
-    "implemented": 1,
+    "total": 3,
+    "implemented": 3,
     "items": [
       {
-        "id": "REQ-26",
-        "summary": "Fix the go-live/deployment failure caused by invalid domain formatting by ensuring the deployment domain/slug used for this app is always compliant with the platform constraints: 5–50 characters, only lowercase/uppercase letters, numbers, and hyphens (no spaces, underscores, or emojis).",
+        "id": "REQ-32",
+        "summary": "Publish/go-live the current build of the birthday experience.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/index.html",
-          "frontend/src/utils/deploymentSlug.ts",
-          "frontend/src/main.tsx"
+          "frontend/src/components/RuntimeErrorBoundary.tsx",
+          "frontend/src/App.tsx"
         ],
         "matchedFiles": [
-          "frontend/index.html",
-          "frontend/src/utils/deploymentSlug.ts"
+          "frontend/src/components/RuntimeErrorBoundary.tsx",
+          "frontend/src/App.tsx"
+        ]
+      },
+      {
+        "id": "REQ-33",
+        "summary": "Ensure the deployment domain/slug used for go-live is always compliant with platform constraints (5–50 characters; only letters, numbers, and hyphens; no spaces, underscores, emojis), using the existing slug validation/sanitization utilities where applicable.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/utils/deploymentSlug.ts",
+          "frontend/src/utils/deploymentSlugFromEnv.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/utils/deploymentSlug.ts",
+          "frontend/src/utils/deploymentSlugFromEnv.ts"
+        ]
+      },
+      {
+        "id": "REQ-34",
+        "summary": "After publishing, perform a quick live smoke test of the full step flow (1→6) to confirm the final Birthday Note modal opens and stays open on Step 6, and can be re-opened after closing without restarting.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/birthday/modals/BirthdayNoteModal.tsx",
+          "frontend/src/components/birthday/steps/StepBirthdayNote.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/birthday/modals/BirthdayNoteModal.tsx",
+          "frontend/src/components/birthday/steps/StepBirthdayNote.tsx"
         ]
       }
     ]
@@ -31,8 +56,12 @@
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
-    "frontend/index.html",
+    "frontend/src/App.tsx",
+    "frontend/src/components/RuntimeErrorBoundary.tsx",
+    "frontend/src/components/birthday/modals/BirthdayNoteModal.tsx",
+    "frontend/src/components/birthday/steps/StepBirthdayNote.tsx",
     "frontend/src/utils/deploymentSlug.ts",
+    "frontend/src/utils/deploymentSlugFromEnv.ts",
     "project_state.json",
     "scratch/component-selection.json",
     "spec.md",
